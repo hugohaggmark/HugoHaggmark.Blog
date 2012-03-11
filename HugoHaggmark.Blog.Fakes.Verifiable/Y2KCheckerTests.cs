@@ -29,4 +29,28 @@ namespace HugoHaggmark.Blog.Fakes.Verifiable
             }
         }
     }
+
+    [TestClass]
+    public class Y2KCheckerTests_Step2
+    {
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void Check_WhenCalledWithY2KShimDateTime_ThenApplicationExceptionIsThrowned()
+        {
+            using (ShimsContext.Create())
+            {
+                Y2KShimDateTime shim = new Y2KShimDateTime();
+
+                Y2KChecker.Check();
+            }
+        }
+    }
+
+    public class Y2KShimDateTime
+    {
+        public Y2KShimDateTime()
+        {
+            ShimDateTime.NowGet = () => { return new DateTime(2000, 1, 1); };
+        }
+    }
 }
