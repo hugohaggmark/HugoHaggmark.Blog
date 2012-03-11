@@ -2,6 +2,7 @@
 using System.Fakes;
 using Microsoft.QualityTools.Testing.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace HugoHaggmark.Blog.Fakes.Verifiable
 {
@@ -13,7 +14,7 @@ namespace HugoHaggmark.Blog.Fakes.Verifiable
                 throw new ApplicationException("y2kbug!");
         }
     }
-
+    
     [TestClass]
     public class Y2KCheckerTests_Step1
     {
@@ -51,6 +52,58 @@ namespace HugoHaggmark.Blog.Fakes.Verifiable
         public Y2KShimDateTime()
         {
             ShimDateTime.NowGet = () => { return new DateTime(2000, 1, 1); };
+        }
+    }
+    
+    [TestClass]
+    public class Y2KCheckerTests_Step3
+    {
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void Check_WhenCalledWithVY2KShimDateTime_ThenApplicationExceptionIsThrowned()
+        {
+            using (ShimsContext.Create())
+            {
+                Mock<VY2KShimDateTime> mock = new Mock<VY2KShimDateTime>();
+                mock.Object.InitFake();
+                mock.Setup(v => v.VNowGet()).Returns(new DateTime(2000, 1, 1));
+
+                Y2KChecker.Check();
+            }
+        }
+
+        [TestMethod]
+        public void Check_WhenCalledWithVY2KShimDateTime_ThenWeCanVerifyTheCalls()
+        {
+            using (ShimsContext.Create())
+            {
+                Mock<VY2KShimDateTime> mock = new Mock<VY2KShimDateTime>();
+                mock.Object.InitFake();
+                mock.Setup(v => v.VNowGet()).Returns(new DateTime(1, 1, 1));
+
+                Y2KChecker.Check();
+                
+                //Uncomment line below to see verify that mock.Verify throws correct message
+                //Y2KChecker.Check();
+
+                mock.Verify(v => v.VNowGet(), Times.Once());
+            }
+        }
+    }
+
+    public class VY2KShimDateTime
+    {
+        public void InitFake()
+        {
+            ShimDateTime.NowGet = () => 
+            {
+                return VNowGet();
+            };
+        }
+
+        public virtual DateTime VNowGet()
+        {
+            return new DateTime();
         }
     }
 }
