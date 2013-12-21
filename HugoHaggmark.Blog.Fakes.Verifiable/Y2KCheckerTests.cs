@@ -1,8 +1,8 @@
-﻿using System;
-using System.Fakes;
-using Microsoft.QualityTools.Testing.Fakes;
+﻿using Microsoft.QualityTools.Testing.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
+using System.Fakes;
 
 namespace HugoHaggmark.Blog.Fakes.Verifiable
 {
@@ -14,15 +14,16 @@ namespace HugoHaggmark.Blog.Fakes.Verifiable
                 throw new ApplicationException("y2kbug!");
         }
     }
-    
+
     [TestClass]
     public class Y2KCheckerTests_Step1
     {
         [TestMethod]
+        [Ignore]
         [ExpectedException(typeof(ApplicationException))]
         public void Check_WhenCalledWithTheDate_2000_1_1_ThenApplicationExceptionIsThrowned()
         {
-            using(ShimsContext.Create())
+            using (ShimsContext.Create())
             {
                 ShimDateTime.NowGet = () => { return new DateTime(2000, 1, 1); };
 
@@ -35,6 +36,7 @@ namespace HugoHaggmark.Blog.Fakes.Verifiable
     public class Y2KCheckerTests_Step2
     {
         [TestMethod]
+        [Ignore]
         [ExpectedException(typeof(ApplicationException))]
         public void Check_WhenCalledWithY2KShimDateTime_ThenApplicationExceptionIsThrowned()
         {
@@ -54,11 +56,12 @@ namespace HugoHaggmark.Blog.Fakes.Verifiable
             ShimDateTime.NowGet = () => { return new DateTime(2000, 1, 1); };
         }
     }
-    
+
     [TestClass]
     public class Y2KCheckerTests_Step3
     {
         [TestMethod]
+        [Ignore]
         [ExpectedException(typeof(ApplicationException))]
         public void Check_WhenCalledWithVY2KShimDateTime_ThenApplicationExceptionIsThrowned()
         {
@@ -73,6 +76,7 @@ namespace HugoHaggmark.Blog.Fakes.Verifiable
         }
 
         [TestMethod]
+        [Ignore]
         public void Check_WhenCalledWithVY2KShimDateTime_ThenWeCanVerifyTheCalls()
         {
             using (ShimsContext.Create())
@@ -82,7 +86,7 @@ namespace HugoHaggmark.Blog.Fakes.Verifiable
                 mock.Setup(v => v.VNowGet()).Returns(new DateTime(1, 1, 1));
 
                 Y2KChecker.Check();
-                
+
                 //Uncomment line below to see verify that mock.Verify throws correct message
                 //Y2KChecker.Check();
 
@@ -95,7 +99,7 @@ namespace HugoHaggmark.Blog.Fakes.Verifiable
     {
         public void InitFake()
         {
-            ShimDateTime.NowGet = () => 
+            ShimDateTime.NowGet = () =>
             {
                 return VNowGet();
             };
