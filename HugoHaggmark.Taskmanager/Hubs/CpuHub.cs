@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.SignalR;
+using System;
 
 namespace HugoHaggmark.Taskmanager.Hubs
 {
@@ -15,6 +16,11 @@ namespace HugoHaggmark.Taskmanager.Hubs
         public CpuHub(Broadcaster broadCaster)
         {
             this.broadCaster = broadCaster;
+        }
+
+        public void InitRootUri()
+        {
+            this.broadCaster.Root = new Uri(Context.Request.Url.GetLeftPart(UriPartial.Authority));
         }
     }
 }

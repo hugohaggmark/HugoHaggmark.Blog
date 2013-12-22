@@ -9,7 +9,9 @@ var taskManagerApp = angular.module('taskManagerApp', ["angles"])
                 $rootScope.$emit("cpuInfo", machineName, cpu);
             }
 
-            $.connection.hub.start();
+            $.connection.hub.start().done(function () {
+                cpuHub.server.initRootUri();
+            });
         };
 
         return {

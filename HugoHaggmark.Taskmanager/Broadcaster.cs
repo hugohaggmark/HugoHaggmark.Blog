@@ -15,6 +15,7 @@ namespace HugoHaggmark.Taskmanager
 
         private readonly TimeSpan updateInterval = TimeSpan.FromMilliseconds(500);
         private readonly Timer timer;
+        private Uri root = null;
 
         private Broadcaster(IHubConnectionContext clients)
         {
@@ -28,6 +29,17 @@ namespace HugoHaggmark.Taskmanager
             get
             {
                 return instance.Value;
+            }
+        }
+
+        public Uri Root
+        {
+            set
+            {
+                if (root == null)
+                {
+                    this.root = value;
+                }
             }
         }
 
@@ -48,15 +60,24 @@ namespace HugoHaggmark.Taskmanager
         {
             string currentCpu = "0";
 
+            if (root != null)
+            {
+                currentCpu = GetCpuReadingFromNancyApi(currentCpu);
+            }
+
+            return currentCpu;
+        }
+
+        private string GetCpuReadingFromNancyApi(string currentCpu)
+        {
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:8080");
+            client.BaseAddress = root;
 
             var response = client.GetAsync("api/cpu").Result;
             if (response.IsSuccessStatusCode)
             {
                 currentCpu = response.Content.ReadAsStringAsync().Result.ToString();
             }
-
             return currentCpu;
         }
     }
