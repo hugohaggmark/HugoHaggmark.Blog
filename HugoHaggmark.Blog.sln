@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HugoHaggmark.Blog.Fakes.Verifiable", "HugoHaggmark.Blog.Fakes.Verifiable\HugoHaggmark.Blog.Fakes.Verifiable.csproj", "{1B5CD7AD-58F1-46BC-AD1A-1E5C12C0722D}"
 EndProject
@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{63DAB25E-C9D
 		Microsoft.QualityTools.Testing.Fakes.dll = Microsoft.QualityTools.Testing.Fakes.dll
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HugoHaggmark.Nancy.Enums.As.Strings", "HugoHaggmark.Nancy.Enums.As.Strings\HugoHaggmark.Nancy.Enums.As.Strings.csproj", "{207AA2AF-3EBA-457A-A69B-B1524F6662EA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{E0E8BD8F-06B5-426F-A0F6-A1B76CBAB95E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0E8BD8F-06B5-426F-A0F6-A1B76CBAB95E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0E8BD8F-06B5-426F-A0F6-A1B76CBAB95E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{207AA2AF-3EBA-457A-A69B-B1524F6662EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{207AA2AF-3EBA-457A-A69B-B1524F6662EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{207AA2AF-3EBA-457A-A69B-B1524F6662EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{207AA2AF-3EBA-457A-A69B-B1524F6662EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
