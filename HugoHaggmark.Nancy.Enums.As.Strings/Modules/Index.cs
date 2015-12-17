@@ -1,6 +1,8 @@
 ﻿using Nancy;
+using Nancy.TinyIoc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using System.Collections.Generic;
 
 namespace HugoHaggmark.Nancy.Enums.As.Strings.Modules
@@ -29,10 +31,27 @@ namespace HugoHaggmark.Nancy.Enums.As.Strings.Modules
         Chewbacca
     }
 
-public class TeamMember
-{
-    public string Name { get; set; }
-    [JsonConverter(typeof(StringEnumConverter))]
-    public StarWarsCharacter Avatar { get; set; }
-}
+    public class TeamMember
+    {
+        public string Name { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public StarWarsCharacter Avatar { get; set; }
+    }
+
+    public class CustomSerializer : JsonSerializer
+    {
+        public CustomSerializer()
+        {
+            ContractResolver = new CamelCasePropertyNamesContractResolver();
+        }
+    }
+
+    public class BootStraper : DefaultNancyBootstrapper
+    {
+        protected override void ConfigureApplicationContainer(TinyIoCContainer container)
+        {
+            base.ConfigureApplicationContainer(container);
+            container.Register(typeof(JsonSerializer), typeof(CustomSerializer));
+        }
+    }
 }
