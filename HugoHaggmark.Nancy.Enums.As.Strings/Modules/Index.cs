@@ -1,4 +1,6 @@
 ﻿using Nancy;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System.Collections.Generic;
 
 namespace HugoHaggmark.Nancy.Enums.As.Strings.Modules
@@ -11,8 +13,8 @@ namespace HugoHaggmark.Nancy.Enums.As.Strings.Modules
             {
                 var teamMembers = new List<TeamMember>()
                 {
-                    new TeamMember { Name = "Marcus", Avatar = StarWarsCharacter.Luke  },
-                    new TeamMember { Name = "Hugo", Avatar = StarWarsCharacter.Chewbacca }
+                new TeamMember { Name = "Marcus", Avatar = StarWarsCharacter.Luke  },
+                new TeamMember { Name = "Hugo", Avatar = StarWarsCharacter.Chewbacca }
                 };
 
                 return Response.AsJson(teamMembers);
@@ -27,9 +29,10 @@ namespace HugoHaggmark.Nancy.Enums.As.Strings.Modules
         Chewbacca
     }
 
-    public class TeamMember
-    {
-        public string Name { get; set; }
-        public StarWarsCharacter Avatar { get; set; }
-    }
+public class TeamMember
+{
+    public string Name { get; set; }
+    [JsonConverter(typeof(StringEnumConverter))]
+    public StarWarsCharacter Avatar { get; set; }
+}
 }
